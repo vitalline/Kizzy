@@ -106,7 +106,8 @@ class GetCurrentPlayingMedia @Inject constructor(
                         bitmap = bitmap,
                         packageName = mediaController.packageName,
                         // <Main artist>|<Album or Title>
-                        title = "${metadata.let { metadataResolver.getAlbumArtists(it) }}|${metadata.let { metadataResolver.getAlbum(it) } ?: title}"
+                        title = "${metadata.let { metadataResolver.getAlbumArtists(it) }}|${metadata.let { metadataResolver.getAlbum(it) } ?: title}",
+                        hash = true
                     )
                 }
 

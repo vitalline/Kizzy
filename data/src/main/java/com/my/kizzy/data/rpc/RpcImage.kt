@@ -22,6 +22,7 @@ import com.my.kizzy.data.utils.toFile
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.nio.ByteBuffer
 
 sealed class RpcImage {
     abstract suspend fun resolveImage(repository: KizzyRepository): String?
@@ -70,10 +71,20 @@ sealed class RpcImage {
         val bitmap: Bitmap?,
         private val packageName: String,
         val title: String,
+        private val hash: Boolean = false,
     ) : RpcImage() {
+        private fun getBitmapHash(): String {
+            if (!hash || bitmap == null) return ""
+            val buffer = ByteBuffer.allocate(bitmap.allocationByteCount)
+            bitmap.copyPixelsToBuffer(buffer)
+            val bitmapHashCode = buffer.array().contentHashCode()
+            @OptIn(ExperimentalStdlibApi::class)
+            return bitmapHashCode.toHexString(HexFormat { number.prefix = "#" })
+        }
+
         override suspend fun resolveImage(repository: KizzyRepository): String? {
             val data = Prefs[Prefs.SAVED_ARTWORK, "{}"]
-            val schema = "${this.packageName}:${this.title}"
+            val schema = "${this.packageName}:${this.title}${getBitmapHash()}"
             val savedImages = Json.decodeFromString<HashMap<String, String>>(data)
             return if (savedImages.containsKey(schema))
                 savedImages[schema]
