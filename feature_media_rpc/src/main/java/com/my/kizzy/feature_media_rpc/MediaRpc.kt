@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.PlaylistAddCircle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -63,6 +64,7 @@ import com.my.kizzy.preference.Prefs
 import com.my.kizzy.preference.Prefs.MEDIA_RPC_ALBUM_NAME
 import com.my.kizzy.preference.Prefs.MEDIA_RPC_APP_ICON
 import com.my.kizzy.preference.Prefs.MEDIA_RPC_ARTIST_NAME
+import com.my.kizzy.preference.Prefs.MEDIA_RPC_COVER_ART
 import com.my.kizzy.preference.Prefs.MEDIA_RPC_ENABLE_TIMESTAMPS
 import com.my.kizzy.preference.Prefs.MEDIA_RPC_HIDE_ON_PAUSE
 import com.my.kizzy.preference.Prefs.MEDIA_RPC_SHOW_PLAYBACK_STATE
@@ -88,6 +90,7 @@ fun MediaRPC(
     var mediaRpcRunning by remember { mutableStateOf(AppUtils.mediaRpcRunning()) }
     var isArtistEnabled by remember { mutableStateOf(Prefs[MEDIA_RPC_ARTIST_NAME, false]) }
     var isAlbumEnabled by remember { mutableStateOf(Prefs[MEDIA_RPC_ALBUM_NAME, false]) }
+    var isCoverEnabled by remember { mutableStateOf(Prefs[MEDIA_RPC_COVER_ART, false]) }
     var isAppIconEnabled by remember { mutableStateOf(Prefs[MEDIA_RPC_APP_ICON, false]) }
     var isTimestampsEnabled by remember { mutableStateOf(Prefs[MEDIA_RPC_ENABLE_TIMESTAMPS, false]) }
     var hideOnPause by remember { mutableStateOf(Prefs[MEDIA_RPC_HIDE_ON_PAUSE, false]) }
@@ -185,6 +188,16 @@ fun MediaRPC(
                     ) {
                         isAlbumEnabled = !isAlbumEnabled
                         Prefs[MEDIA_RPC_ALBUM_NAME] = isAlbumEnabled
+                    }
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.show_cover_art),
+                        icon = Icons.Default.Image,
+                        isChecked = isCoverEnabled
+                    ) {
+                        isCoverEnabled = !isCoverEnabled
+                        Prefs[MEDIA_RPC_COVER_ART] = isCoverEnabled
                     }
                 }
                 item {

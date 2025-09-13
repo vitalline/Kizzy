@@ -148,6 +148,7 @@ object Prefs {
     //Media Rpc Preferences
     const val MEDIA_RPC_ARTIST_NAME = "media_rpc_artist_name"
     const val MEDIA_RPC_ALBUM_NAME = "media_rpc_album_name"
+    const val MEDIA_RPC_COVER_ART = "media_rpc_cover_art"
     const val MEDIA_RPC_APP_ICON = "media_rpc_app_icon"
     const val MEDIA_RPC_ENABLE_TIMESTAMPS = "enable_timestamps"
     const val MEDIA_RPC_HIDE_ON_PAUSE = "hide_on_pause"
