@@ -22,6 +22,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.my.kizzy.data.rpc.Constants.APPLICATION_ID
 import com.my.kizzy.data.rpc.RpcImage
 import com.my.kizzy.data.rpc.Timestamps
+import com.my.kizzy.preference.Prefs
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -50,6 +51,9 @@ class GetCurrentPlayingMediaAll @Inject constructor(
             context.getSystemService(Service.MEDIA_SESSION_SERVICE) as MediaSessionManager
         val sessions = mediaSessionManager.getActiveSessions(componentName)
         for (mediaController in sessions) {
+            if (!Prefs.isExperimentalAppEnabled(mediaController.packageName)) {
+                continue
+            }
             val metadata = mediaController.metadata
             val title = metadata?.getString(MediaMetadata.METADATA_KEY_TITLE)
             val appName = AppUtils.getAppName(mediaController.packageName)
